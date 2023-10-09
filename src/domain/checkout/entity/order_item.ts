@@ -21,6 +21,18 @@ export default class OrderItem {
     this._total = this.total();
   }
 
+  changeQuantity(quantity: number): void {
+    this._quantity = quantity;
+    this.validate();
+  }
+
+  validate(): boolean {
+    if (this._quantity == 0) {
+      throw new Error("Quantity is required");
+    }
+    return true;
+  }
+
   get id(): string {
     return this._id;
   }
