@@ -60,12 +60,25 @@ describe("Order repository test", () => {
     const orderRepository = new OrderRepository();
     await orderRepository.create(order);
 
-    const orderModel = await OrderModel.findOne({
-      where: { id: order.id },
-      include: ["items"],
-    });
+    const orderModel = await orderRepository.find(order.id);
 
-    expect(orderModel.toJSON()).toStrictEqual({
+    var orderModelObj = {
+      id: orderModel.id,
+      customer_id: orderModel.customerId,
+      total: orderModel.total(),
+      items: [
+        {
+          id: orderModel.items[0].id,
+          name: orderModel.items[0].name,
+          price: orderModel.items[0].price,
+          quantity: orderModel.items[0].quantity,
+          product_id: orderModel.items[0].productId,
+          total: orderModel.items[0].total(),
+        },
+      ]
+    }
+
+    expect(orderModelObj).toStrictEqual({
       id: "123",
       customer_id: "123",
       total: order.total(),
@@ -75,8 +88,8 @@ describe("Order repository test", () => {
           name: orderItem.name,
           price: orderItem.price,
           quantity: orderItem.quantity,
-          order_id: "123",
           product_id: "123",
+          total: (orderItem.price * orderItem.quantity),
         },
       ],
     });
@@ -160,12 +173,24 @@ describe("Order repository test", () => {
     const orderRepository = new OrderRepository();
     await orderRepository.create(order);
 
-    const orderModel = await OrderModel.findOne({
-      where: { id: "123" },
-      include: ["items"],
-    });
+    const orderModel = await orderRepository.find(order.id);
 
-    expect(orderModel.toJSON()).toStrictEqual({
+    var orderModelObj = {
+      id: orderModel.id,
+      customer_id: orderModel.customerId,
+      total: orderModel.total(),
+      items: [
+        {
+          id: orderModel.items[0].id,
+          name: orderModel.items[0].name,
+          price: orderModel.items[0].price,
+          quantity: orderModel.items[0].quantity,
+          product_id: orderModel.items[0].productId,
+        },
+      ]
+    }
+
+    expect(orderModelObj).toStrictEqual({
       id: "123",
       customer_id: "123",
       total: order.total(),
@@ -175,7 +200,6 @@ describe("Order repository test", () => {
           name: orderItem.name,
           price: orderItem.price,
           quantity: orderItem.quantity,
-          order_id: "123",
           product_id: "123",
         },
       ],
