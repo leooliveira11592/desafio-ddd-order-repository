@@ -1,3 +1,9 @@
+import Customer from "../../customer/entity/customer";
+import CustomerCreatedEvent from "../../customer/event/customer-created.event";
+import EnviaConsoleLog1Handler from "../../customer/event/handler/envia-console-log-1-handler";
+import EnviaConsoleLog2Handler from "../../customer/event/handler/envia-console-log-2-handler";
+import EnviaConsoleLogHandler from "../../customer/event/handler/envia-console-log-handler";
+import CustomerFactory from "../../customer/factory/customer.factory";
 import SendEmailWhenProductIsCreatedHandler from "../../product/event/handler/send-email-when-product-is-created.handler";
 import ProductCreatedEvent from "../../product/event/product-created.event";
 import EventDispatcher from "./event-dispatcher";
@@ -6,7 +12,7 @@ describe("Domain events tests", () => {
   it("should register an event handler", () => {
     const eventDispatcher = new EventDispatcher();
     const eventHandler = new SendEmailWhenProductIsCreatedHandler();
-
+    
     eventDispatcher.register("ProductCreatedEvent", eventHandler);
 
     expect(
