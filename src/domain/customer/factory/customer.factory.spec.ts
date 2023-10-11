@@ -5,6 +5,7 @@ import EnviaConsoleLog1Handler from "../event/handler/envia-console-log-1-handle
 import EnviaConsoleLog2Handler from "../event/handler/envia-console-log-2-handler";
 import EnviaConsoleLogHandler from "../event/handler/envia-console-log-handler";
 import CustomerCreatedEvent from "../event/customer-created.event";
+import CustomerChangedAddressEvent from "../event/customer-changed-address.event";
 
 describe("Customer factory unit test", () => {
   it("should create a customer", () => {
@@ -38,14 +39,14 @@ describe("Customer factory unit test", () => {
     const eventDispatcher = new EventDispatcher();
     const eventHandler = new EnviaConsoleLogHandler();
 
-    const customerCreatedEvent = new CustomerCreatedEvent({
+    const customerChangedAddressEvent = new CustomerChangedAddressEvent ({
       id: customer.id,
       name: customer.name,
       endereco: customer.Address
     });
 
-    eventDispatcher.register("CustomerCreatedEvent", eventHandler);
-    eventDispatcher.notify(customerCreatedEvent);
+    eventDispatcher.register("CustomerChangedAddressEvent", eventHandler);
+    eventDispatcher.notify(customerChangedAddressEvent);
 
     expect(customer.id).toBeDefined();
     expect(customer.name).toBe("John");
